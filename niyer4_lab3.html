@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<!-- Modify Title between these comments (Choose correct class number and substitute your username) -->
+	<title>ITMD 565 Lab 3 - NIYER4 - DOM Manipulation</title>
+	<!-- Modify Title between these comments -->
+	<style type="text/css">
+		body {
+			background-color: #ccc;
+			font-family: sans-serif;
+		}
+		label {
+			width: 100px;
+			display: inline-block;
+			margin: 5px 0;
+		}
+		input {
+			display: inline-block;
+			margin: 5px 0;
+		}
+		button {
+			display: inline-block;
+			margin: 20px 10px 20px 0;
+		}
+		#wrapper {
+			background-color: #fff;
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px 40px;
+		}
+		#resultsWrapper .result {
+			border: 4px solid red;
+			padding: 10px;
+			margin: 10px 0;
+		}
+		#resultsWrapper .red {
+			border-color: red;
+		}
+		#resultsWrapper .red h2 {
+			color: red;
+		}
+		#resultsWrapper .green {
+			border-color: green;
+		}
+		#resultsWrapper .green h2 {
+			color: green;
+		}
+		#resultsWrapper .blue {
+			border-color: blue;
+		}
+		#resultsWrapper .blue h2 {
+			color: blue;
+		}
+		/* You may add additional CSS below this comment if you feel necessary */
+		
+	</style>
+</head>
+<body>
+	<div id="wrapper">
+		<!-- Modify headlines between these comments (Choose correct class number and substitute Name and Email) -->
+		<h1>ITMD 565 - Lab 3 - DOM Manipulation</h1>
+		<h2>Neeraj Iyer - niyer4@hawk.iit.edu</h2>
+		<!-- Modify headlines between these comments -->
+		<label for="bodyInput">Body Text: </label><input id="bodyInput" type="text"><br>
+		<label for="qtyInput">Quantity: </label><input id="qtyInput" type="text"><br>
+		<label for="colorInput">Color: </label>
+		<select id="colorInput">
+			<option value="red">Red</option>
+			<option value="green">Green</option>
+			<option value="blue">Blue</option>
+		</select><br>
+		
+		<button id="runBtn">Run Lab</button>
+		<button id="resetBtn">Reset Lab</button>
+		
+		<h2>Results</h2>
+		<div id="resultsWrapper"></div>
+	</div>
+	
+	<script type="text/javascript">
+	
+
+		// Begin JavaScript Code Here - Do not put JavaScript outside these comments.
+				resetbutton = document.getElementById('resetBtn');
+				resetbutton.disabled = true;
+				
+		//on click on Run button 		
+		if(document.getElementById('runBtn'))
+		{
+			document.getElementById('runBtn').addEventListener('click', function(){
+			
+			var res = document.getElementById('resultsWrapper');
+			var body = document.getElementById('bodyInput').value.trim();
+			var quantity = document.getElementById('qtyInput').value.trim();
+			var color = document.getElementById('colorInput').value;
+			
+			//Converting quantity to number
+			quantity = Number(quantity);
+			
+			//if quantity is negative
+			if (quantity < 0)
+			{
+				
+				alert("You entered a Negative Number. Please enter a positive number")
+				window.location.reload();
+			}
+			
+			//if quantity is not a number
+			if(isNaN(quantity))
+			{
+				alert("The entered Quantity does not seem to be a number. Please be sure that you enter a number")
+				window.location.reload();
+			}
+			//if fields are blank and submitted
+			if(body == ''||quantity =='')
+			{
+				alert("You cannot leave the Quantity and Body Text blank.Please fill them again and try")
+				window.location.reload();
+			}
+			res.innerHTML=" ";
+			resetbutton.disabled = false;
+			
+			for(var i=1; i<=quantity ; i++)
+			{
+				var div1 = document.createElement("div");
+				
+				res.appendChild(div1);
+				div1.style.border = "3px solid "+color+ " ";
+				var head2 = document.createElement("h2");
+				var text = document.createTextNode("Output " +i+ "");
+				var paragraph = document.createElement("Para");
+				var text2 = document.createTextNode(body);
+				var button1=document.createElement("button");
+				button1.innerHTML="DELETE";
+			
+				head2.appendChild(text);
+				div1.appendChild(head2);
+				paragraph.appendChild(text2);
+				div1.appendChild(paragraph);
+				div1.appendChild(button1);
+				//body.appendChild(button1);
+				
+				
+				//on click of delete button delete the entire div
+				button1.addEventListener('click',function(){
+				//alert("did something");
+				var me=this.parentNode;
+				me.parentNode.removeChild(me);
+				}); 
+			
+			}
+			document.getElementById('bodyInput').value = '';
+			document.getElementById('qtyInput').value = '';
+			document.getElementById('colorInput').value = 'red';
+			}, false);
+
+		}
+
+		// on click of Reset button
+		if(document.getElementById('resetBtn'))
+		{
+			document.getElementById('resetBtn').addEventListener('click', function(){
+			document.getElementById('bodyInput').value = '';
+			document.getElementById('qtyInput').value = '';
+			document.getElementById('resultsWrapper').innerHTML = '';
+			resetbutton.disabled = true;
+		}, false);
+		}
+			
+		
+		
+		
+// End JavaScript Code Here - Do not put JavaScript outside these comments.
+	</script>
+</body>
+</html>

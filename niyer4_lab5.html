@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ITMD-565 Lab 5 - Canvas Drawing</title>
+	<style type="text/css">
+		#content-wrapper {
+			width: 600px;
+			margin: 0 auto;
+			text-align: center;
+		}
+		#canvasRun {
+			background-color: #c00;
+			border: 0;
+			color: #fff;
+		}
+	</style>
+</head>
+<body>
+	<div id="content-wrapper">
+		<button id="canvasRun">Draw Canvas</button><br><br>
+		<canvas id="myCanvas" width="600" height="450"></canvas>
+	</div>
+	<script type="text/javascript">
+		// Canvas Drawing Code Here
+		
+		//creating canvas and canvas button
+		var canvas_draw = document.getElementById('myCanvas');
+		var canvasBtn = document.getElementById('canvasRun');
+		
+		var canvas_x=canvas_draw.getContext("2d");
+		var img = new Image();   
+		img.src = 'IIT_SAT_stack_186_white.png';
+		
+		//variable declarations
+		var rotation = 0;
+		var endAngleat = 2 * Math.PI;
+		var anticlockwise = false;
+		var cone = 0.01 *Math.PI;
+		var radius = 50;
+		var startAngleAt = 1.2 * Math.PI;
+				
+		canvasBtn.addEventListener('click', function() {
+		setInterval(function drawCanvas() {
+		canvas_x.clearRect(0, 0, 650, 550);
+		canvas_x.save();
+		
+		var generalization=canvas_x.createLinearGradient(0,0,0,550);
+		generalization.addColorStop(0,"white");
+		generalization.addColorStop(1,"black");
+		canvas_x.fillStyle=generalization;
+		canvas_x.fillRect(0,0,650,550);
+		canvas_x.font = '32px sans-serif';
+		canvas_x.fillStyle = '#c00';
+		var text = "ITMD 565 Canvas Lab";
+		var text_Width = canvas_x.measureText(text).width;
+		canvas_x.fillText(text, (canvas_draw.width/2) - (text_Width / 2), 50);
+
+		canvas_x.beginPath();
+		canvas_x.arc(90, 160, 60, 0, 2 * Math.PI, false);
+		canvas_x.fillStyle = 'blue';
+		canvas_x.fill();
+		canvas_x.lineWidth =7;
+		canvas_x.strokeStyle = '#fff';
+		canvas_x.stroke();
+				
+		//filling green color for cone
+		canvas_x.fillStyle = '#00C800'; 
+		canvas_x.beginPath();
+		canvas_x.moveTo(150,370);
+		canvas_x.lineTo(40,370);
+		canvas_x.lineTo(90,260);
+		canvas_x.closePath();
+		canvas_x.fill();
+	
+		//setting font style,size and text details
+		canvas_x.font = '14px sans-serif';
+		canvas_x.fillStyle = 'white';
+		canvas_x.fillText('Neeraj Iyer', 10, 420);
+		canvas_x.fillText('niyer4@hawk.iit.edu',10,440);
+
+		//for arc 
+		canvas_x.beginPath();
+		canvas_x.arc(300, 170, radius, startAngleAt, endAngleat, anticlockwise);
+		canvas_x.lineWidth = 15;
+		canvas_x.strokeStyle = 'orange';
+		canvas_x.stroke();
+		startAngleAt += cone;
+		endAngleat += cone;
+
+		//for curve 
+		canvas_x.beginPath();
+		canvas_x.rect(200, 260, 350, 100);
+		canvas_x.fillStyle = 'white';
+		canvas_x.fill();
+		canvas_x.beginPath();
+		canvas_x.setLineDash([17, 12]);
+		canvas_x.moveTo(215, 310);
+		canvas_x.quadraticCurveTo(330,240, 405, 310);
+		canvas_x.quadraticCurveTo(480,380,555,310);
+		canvas_x.lineWidth = 4;
+		canvas_x.strokeStyle = 'black';
+		canvas_x.stroke();
+		canvas_x.setLineDash([17,0]);
+			
+		//drawing image and setting coordinates for it.
+		canvas_x.drawImage(img, 330,370,250,70);
+		canvas_x.beginPath();
+		canvas_x.translate(480,160); 
+		canvas_x.rotate(rotation * (Math.PI / 180));
+		canvas_x.translate(-480,-160);
+		canvas_x.rect(420, 100, 120, 120);
+		canvas_x.lineWidth = 15;
+		canvas_x.strokeStyle = 'white';
+		canvas_x.stroke();
+		rotation += 1;
+		canvas_x.restore();
+		canvas_x.fillStyle = 'red';
+		canvas_x.fill();
+		canvas_x.stroke();
+
+			
+				
+		}, 7);	
+		});
+	</script>
+</body>
+</html>

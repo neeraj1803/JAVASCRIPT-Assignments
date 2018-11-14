@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<meta charset="UTF-8">
+	
+<title> ITMD 565 Lab 4 NIYER4 </title>
+
+<style type="text/css">
+
+		body
+		{
+		background-color:Gray;
+		font-family:verdana;
+		h1   {color: blue;}
+		}
+		
+		label
+		{
+		width: 150px;
+		display: inline-block;
+		margin: 5px 0;
+		
+		}
+		input 
+		{
+		display: inline-block;
+		margin: 5px 0;
+		}
+		button 
+		{
+		display: inline-block;
+		margin: 55px 25px 20px 0;
+		height:40px;width:70px
+		}
+		.True
+		{
+		background-color: green;
+		color: white;
+		}
+		.False
+		{
+		background-color: red;
+		color: white;
+		}
+		#table 
+		{
+		background-color: #fff;
+		max-width: 900px;
+		margin: 0 auto;
+		padding: 40px 40px;
+		vertical-align: middle;
+		
+		}
+		#table th
+		{
+		padding-top: 12px;
+		padding-bottom: 12px;
+		text-align: left;
+		background-color:DodgerBlue;
+		color: black;
+		
+		}
+		
+		tr:hover 
+		{background-color: #f5f574;}	
+
+		tr:nth-child(even) 
+		{background-color: #f2f2f2;
+		background-color:Orange;}
+	
+</style>
+</head>
+<body>
+
+<div id="table" background-color: #fff >
+
+<h1><center> ITMD 565 - Lab 4 <center></h1>
+<h2><center> NEERAJ IYER - niyer4@hawk.iit.edu <center></h2>
+		
+		<center>
+		<button id="FillData" style="color:SlateBlue;font-weight: bold;height:40px;width:70px">LOAD DATA</button>
+		<button id="resetBtn" style="color:SlateBlue;font-weight: bold;height:40px;width:70px">RESET</button>
+	</center>
+	<div id="resultsWrapper">
+<h2><center> JSON DATA <center></h2>
+	<table id = "tab" border = 0 background-color: #f2f2f2;>
+ <thead>
+	 <tr>
+		 <th>ID</th>
+		 <th>First Name</th>
+		 <th>Last Name</th>
+		 <th>Title</th>
+		 <th>Email ID</th>
+		 <th>Gender</th>
+		 <th>Active</th>
+	 </tr>
+</table>
+	</div>
+	
+	<script type="text/javascript">
+var sizeofrecord;
+document.getElementById('resetBtn').disabled=true;
+document.getElementById('FillData').addEventListener('click',function(){
+
+document.getElementById('resetBtn').disabled = true;
+var request=new XMLHttpRequest();
+var show=document.getElementById('tab');
+var bodytab=show.createTBody();
+
+document.getElementById('FillData').disabled=true;
+
+request.onload=function()
+
+{
+			if(request.readyState === 4 && request.status === 200)
+				{
+					 //o.callback(request.responseText);
+					var doc = JSON.parse(request.responseText);
+					sizeofrecord = doc.length;
+							
+							var i=0;
+							while(i<sizeofrecord)
+							{
+								var a = bodytab.insertRow(i);
+								var id = a.insertCell(0);
+								var first_Name = a.insertCell(1);
+								var last_Name = a.insertCell(2);
+								var title = a.insertCell(3);
+								var email = a.insertCell(4);
+								var gender = a.insertCell(5);
+								var active = a.insertCell(6);
+								//console.log(request);
+								//var c=active.insertCell;
+
+								id.innerHTML = doc[i].id;
+								first_Name.innerHTML = doc[i].first_name;
+								last_Name.innerHTML = doc[i].last_name;
+								title.innerHTML = doc[i].title;
+								email.innerHTML = doc[i].email;
+								gender.innerHTML = doc[i].gender;
+								active.innerHTML = doc[i].active;
+								//console.log(request);
+										
+								if(doc[i].active === true)
+								
+								{
+								active.className = "True";
+								}
+											
+								else
+								{
+								active.className = "False";
+								}
+								i++
+			}
+		}
+								else
+								{
+								console.log("You are no where");
+								}
+	};
+	
+		//Loading data 
+		request.open('GET', 'http://libertyville.rice.iit.edu/scripts/4565_lab4.php', true);
+		request.send();
+		document.getElementById('resetBtn').disabled = false;
+		//console.log(request);
+
+
+
+
+});
+	//on click of reset button
+	document.getElementById('resetBtn').addEventListener('click', function () {
+				
+				//var resulttable1= document.innerHTML;
+	            var resultTable1 = document.getElementById('show');
+	            document.getElementById('FillData').disabled = false;
+				
+				
+	            for(var i = sizeofrecord; i > 0; i--)
+				{
+	                tab.deleteRow(i);
+					//i--;
+	            }
+	        });
+	</script>
+</body>
+</html>			
+	
